@@ -1,0 +1,11 @@
+Package: cnquant
+Type: Package
+Title: Quantitative Analysis Tools in Chinese Stock Market
+Version: 0.1.0
+Author: Einzbern LIU
+Maintainer: Einzbern LIU <ylwpaopao@163.com>
+Description: Read data, construct indicator, examine performance, and so on.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: tidyverse, xts
