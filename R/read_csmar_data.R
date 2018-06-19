@@ -10,7 +10,6 @@
 #'
 #' @examples
 #' @importFrom magrittr %>%
-
 read_csmar_data <- function(path, skip = 1, col_names = TRUE, col_types = NULL) {
   ### import the first file of data, return the whole combined dataset, in the case of a seqence of ".xls" data
   ### otherwise, directly import the single data file (for ".csv" and ".txt")
