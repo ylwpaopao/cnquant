@@ -1,4 +1,4 @@
-devide <- function(x, n_group = 10) {
+divide <- function(x, n_group = 10) {
   x <- dplyr::row_number(x)
   return(cut(
     x,
