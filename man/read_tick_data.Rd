@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_tick_data.R
 \name{read_tick_data}
 \alias{read_tick_data}
-\title{Title}
+\title{Read tick data}
 \usage{
 read_tick_data(file, col_types = readr::cols_only(time = readr::col_integer(),
   price = readr::col_integer(), volume = readr::col_integer(), turover =
@@ -33,8 +33,17 @@ read_tick_data(file, col_types = readr::cols_only(time = readr::col_integer(),
   total_bid_volume = readr::col_integer()))
 }
 \arguments{
-\item{col_types}{}
+\item{file}{Path to a file.}
+
+\item{col_types}{Same as \code{read_csv}.}
+}
+\value{
+A tibble.
 }
 \description{
-Title
+\code{read_tick_data()} reads a certain format csv data as is high frequency
+stock tick data exported from Wind. A wrapper of \code{read_csv}.
+}
+\seealso{
+\code{\link[readr]{read_csv}}.
 }

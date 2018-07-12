@@ -1,3 +1,16 @@
+#' Winsorize data
+#'
+#' \code{winsorize()} winsorizes data to eliminate influence from outliers.
+#'
+#' @param x A numeric vector.
+#' @param method Default to "median". One of "median", "quantile", or "std".
+#' Support only "median" for now.
+#'
+#' @return A numeric vector.
+#' @export
+#'
+#' @examples
+#' winsorize(c(1:10, 100))
 winsorize <- function(x, method = "median") {
   if (method == "median") {
     med <- median(x, na.rm = TRUE)

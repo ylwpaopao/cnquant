@@ -1,15 +1,21 @@
-#' Title
+#' Read CSMAR data
 #'
-#' @param path
-#' @param skip
-#' @param col_names
-#' @param col_types
+#' \code{read_csmar_data()} reads a data file exported from CSMAR into R. A
+#' wrapper of \code{read_csv} and \code{read_excel}.
 #'
-#' @return
+#' @param path Path to a raw data file.
+#' @param skip Integer. The number of lines of the data file to skip before beginning to read data.
+#'   Usually 1 for 'Excel Format Create R Data' from CSMAR.
+#' @param col_names "Chinese" to use chinese column names from the external txt description file.
+#'   Otherwise the same with \code{read_csv} and \code{read_excel}.
+#' @param col_types The same with \code{read_csv} and \code{read_excel}.
+#'
+#' @return A tibble.
 #' @export
 #'
+#' @seealso \code{\link[readr]{read_csv}} and \code{\link[readxl]{read_excel}}.
+#'
 #' @examples
-#' @importFrom magrittr %>%
 read_csmar_data <- function(path, skip = 1, col_names = TRUE, col_types = NULL) {
   ### import the first file of data, return the whole combined dataset, in the case of a seqence of ".xls" data
   ### otherwise, directly import the single data file (for ".csv" and ".txt")
