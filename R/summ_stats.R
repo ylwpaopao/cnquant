@@ -1,6 +1,6 @@
 #' Calculate summary statistics
 #'
-#' \code{summary_stats()} calculates frequently used summary statistics for academic paper.
+#' \code{summ_stats()} calculates frequently used summary statistics for academic paper.
 #'
 #' @param x A numeric vector.
 #' @param na.rm Logical. Should missing values (including \code{NaN}) be removed?
@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' summary_stats(rnorm(100))
-summary_stats <- function(x, na.rm = TRUE) {
+summ_stats <- function(x, na.rm = TRUE) {
   if (na.rm) x <- x[!is.na(x)]
   return(c(
     mean = mean(x),

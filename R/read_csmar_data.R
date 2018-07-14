@@ -16,7 +16,7 @@
 #' @seealso \code{\link[readr]{read_csv}} and \code{\link[readxl]{read_excel}}.
 #'
 #' @examples
-read_csmar_data <- function(path, skip = 1, col_names = TRUE, col_types = NULL) {
+read_csmar_data <- function(path, skip = 0, col_names = TRUE, col_types = NULL) {
   ### import the first file of data, return the whole combined dataset, in the case of a seqence of ".xls" data
   ### otherwise, directly import the single data file (for ".csv" and ".txt")
 

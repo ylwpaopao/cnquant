@@ -4,13 +4,15 @@
 \alias{weighted_mean}
 \title{Weighted arithmetic mean}
 \usage{
-weighted_mean(x, w)
+weighted_mean(x, w, exclude.Inf = TRUE)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
 \item{w}{A numeric vector of weights the same length as \code{x} giving the
 weights.}
+
+\item{exclude.Inf}{Logical.}
 }
 \value{
 A numeric scalar.
@@ -18,8 +20,8 @@ A numeric scalar.
 \description{
 \code{weighted_mean()} computes a weighted arithmetic mean. It enhances the
 \code{weighted.mean} function with support for \code{NA} values in \code{x}. In
-fact, \code{weighted_mean()} excludes element-pair with \coed{NA} either from \coed{x} or
-\coed{w}.
+fact, \code{weighted_mean()} excludes element-pair with \code{NA} either from \code{x} or
+\code{w}.
 }
 \examples{
 x1 <- c(NA, 2, 3, 4, 5)

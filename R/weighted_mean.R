@@ -2,12 +2,13 @@
 #'
 #' \code{weighted_mean()} computes a weighted arithmetic mean. It enhances the
 #' \code{weighted.mean} function with support for \code{NA} values in \code{x}. In
-#' fact, \code{weighted_mean()} excludes element-pair with \coed{NA} either from \coed{x} or
-#' \coed{w}.
+#' fact, \code{weighted_mean()} excludes element-pair with \code{NA} either from \code{x} or
+#' \code{w}.
 #'
 #' @param x A numeric vector.
 #' @param w A numeric vector of weights the same length as \code{x} giving the
 #' weights.
+#' @param exclude.Inf Logical.
 #'
 #' @return A numeric scalar.
 #' @export
@@ -20,7 +21,12 @@
 #' x2 <- x1[3:5]
 #' w2 <- w1[3:5]
 #' weighted_mean(x2, w2)
-weighted_mean <- function(x, w) {
-  index <- !is.na(x) & !is.na(w)
-  return(weighted.mean(x[index], w[index]))
+weighted_mean <- function(x, w, exclude.Inf = TRUE) {
+  if (exclude.Inf == FALSE) {
+    index <- !is.na(x) & !is.na(w)
+    return(weighted.mean(x[index], w[index]))
+  } else if (exclude.Inf == TRUE) {
+    index <- is.finite(x) & is.finite(w)
+    return(weighted.mean(x[index], w[index]))
+  }
 }

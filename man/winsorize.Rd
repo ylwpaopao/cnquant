@@ -9,8 +9,7 @@ winsorize(x, method = "median")
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{method}{Default to "median". One of "median", "quantile", or "std".
-Support only "median" for now.}
+\item{method}{Default to "median". One of "median", "quantile", or "std".}
 }
 \value{
 A numeric vector.

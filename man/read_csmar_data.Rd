@@ -4,7 +4,7 @@
 \alias{read_csmar_data}
 \title{Read CSMAR data}
 \usage{
-read_csmar_data(path, skip = 1, col_names = TRUE, col_types = NULL)
+read_csmar_data(path, skip = 0, col_names = TRUE, col_types = NULL)
 }
 \arguments{
 \item{path}{Path to a raw data file.}

@@ -4,7 +4,6 @@
 #'
 #' @param x A numeric vector.
 #' @param method Default to "median". One of "median", "quantile", or "std".
-#' Support only "median" for now.
 #'
 #' @return A numeric vector.
 #' @export
@@ -28,6 +27,16 @@ winsorize <- function(x, method = "median") {
       x[x > med + 5 * diff_med] <- med + 5 * diff_med
       x[x < med - 5 * diff_med] <- med - 5 * diff_med
     }
+  } else if (method == "std") {
+    mu <- mean(x, na.rm = TRUE)
+    sigma <- sd(x, na.rm = TRUE)
+    x[x > mu + 3 * sigma] <- mu + 3 * sigma
+    x[x < mu - 3 * sigma] <- mu - 3 * sigma
+  } else if (method == "quantile") {
+    q <- quantile(x, c(0.01, 0.99), na.rm = TRUE)
+    x[x > q[2]] <- q[2]
+    x[x < q[1]] <- q[1]
   }
+
   return(x)
 }
