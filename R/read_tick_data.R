@@ -1,13 +1,17 @@
-#' Title
+#' Read tick data
 #'
-#' @param file
-#' @param col_types
+#' \code{read_tick_data()} reads a certain format csv data as is high frequency
+#' stock tick data exported from Wind. A wrapper of \code{read_csv}.
 #'
-#' @return
+#' @param file Path to a file.
+#' @param col_types Same as \code{read_csv}.
+#'
+#' @return A tibble.
 #' @export
 #'
+#' @seealso \code{\link[readr]{read_csv}}.
+#'
 #' @examples
-#' @importFrom magrittr %>%
 read_tick_data <- function(file,
                            col_types = readr::cols_only(
                              time = readr::col_integer(),
