@@ -12,6 +12,6 @@ toolkbox for quantitative financial analysis as well as high frequency data.
 \author{
 \itemize{
   \item Einzbern LIU \email{ylwpaopao@163.com}
-  \item Elu LU
+  \item Elf LU
 }
 }

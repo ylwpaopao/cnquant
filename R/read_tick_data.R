@@ -4,7 +4,10 @@
 #' stock tick data exported from Wind. A wrapper of \code{read_csv}.
 #'
 #' @param file Path to a file.
-#' @param col_types Same as \code{read_csv}.
+#' @param col_types There are two forms.
+#'
+#' The first is same as \code{read_csv}.
+#' The second is a character vector which contains variable names you want to use.
 #'
 #' @return A tibble.
 #' @export
@@ -67,7 +70,20 @@ read_tick_data <- function(file,
                              total_ask_volume = readr::col_integer(),
                              total_bid_volume = readr::col_integer()
                            )) {
-  readr::read_csv(file, col_types = col_types) %>%
-    dplyr::mutate(time = parse_tick_time(time)) %>%
-    return()
+  if(is.list(col_types)){
+    purrr::safely(readr::read_csv)(file, col_types = col_types)$result %>%
+      return()
+  }else if(is.character(col_types)){
+    data <- readr::read_csv(file)
+
+    data_variable_nemas <- names(data)
+
+    if (all(col_types %in% data_variable_nemas)) {
+      data <- data %>%
+        dplyr::select(col_types)
+
+      return(data)
+    }
+  }
+
 }

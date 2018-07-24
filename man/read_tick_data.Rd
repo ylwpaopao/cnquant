@@ -35,7 +35,10 @@ read_tick_data(file, col_types = readr::cols_only(time = readr::col_integer(),
 \arguments{
 \item{file}{Path to a file.}
 
-\item{col_types}{Same as \code{read_csv}.}
+\item{col_types}{There are two forms.
+
+The first is same as \code{read_csv}.
+The second is a character vector which contains variable names you want to use.}
 }
 \value{
 A tibble.
