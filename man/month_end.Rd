@@ -7,16 +7,17 @@
 month_end(x)
 }
 \arguments{
-\item{x}{A 8-digit date character.}
+\item{x}{A \code{Date} object or a 8-digit date character.}
 }
 \value{
-A 8-digit date character.
+The same type of x.
 }
 \description{
 \code{month_end()} returns the last day of the month.
 }
 \examples{
 month_end("20180712")
+month_end(as.Date("2018-07-12"))
 }
 \seealso{
 \code{\link[lubridate]{ceiling_date}}.

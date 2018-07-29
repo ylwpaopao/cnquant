@@ -1,12 +1,3 @@
-#' Title
-#'
-#' @param file
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' @importFrom magrittr %>%
 read_tick_file <- function(file){
 
   Tick_Data <- readr::read_csv(file)
