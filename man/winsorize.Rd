@@ -4,14 +4,18 @@
 \alias{winsorize}
 \title{Winsorize data}
 \usage{
-winsorize(x, method = "quantile", side = "both")
+winsorize(x, method = "quantile", side = "both", fill = "bound")
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{method}{Default to "quantile". One of "quantile", "median", or "std".}
+\item{method}{Default to "quantile". One of "quantile", "median", or "std".
+Or a numeric vector of length 2 specify lower and upper bounds.}
 
 \item{side}{Side to winsorize. Default to "both". "both", "right", or "left".}
+
+\item{fill}{Default "bound" to assign outliers to lower and (or) upper bounds, or "NA
+to assign outliers to be NA.}
 }
 \value{
 A numeric vector.
