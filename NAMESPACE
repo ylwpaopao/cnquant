@@ -2,7 +2,9 @@
 
 export(calculate_AR)
 export(divide)
+export(layer_return)
 export(month_end)
+export(neutralize)
 export(parse_tick_time)
 export(read_csmar_data)
 export(read_tick_data)
