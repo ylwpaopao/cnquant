@@ -4,12 +4,14 @@
 \alias{winsorize}
 \title{Winsorize data}
 \usage{
-winsorize(x, method = "median")
+winsorize(x, method = "quantile", side = "both")
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{method}{Default to "median". One of "median", "quantile", or "std".}
+\item{method}{Default to "quantile". One of "quantile", "median", or "std".}
+
+\item{side}{Side to winsorize. Default to "both". "both", "right", or "left".}
 }
 \value{
 A numeric vector.
