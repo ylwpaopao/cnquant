@@ -12,18 +12,18 @@ layer_return(Test_Data, factor, neutrals = NULL, stock_pool = "ZZALL",
 
 \item{factor}{The factor variable.}
 
-\item{neutrals}{A character vector specifying style factors (including industry) 
-to neutralize upon. Possible components are "CITICS_IND_CODE", "LOG_S_DQ_MV", 
+\item{neutrals}{A character vector specifying style factors (including industry)
+to neutralize upon. Possible components are "CITICS_IND_CODE", "LOG_S_DQ_MV",
 and "LOG_B2M". For example, \code{neutrals = c("CITICS_IND_CODE", "LOG_S_DQ_MV")}.}
 
-\item{stock_pool}{Stock pool in which stocks are selected. "ZZALL", "HS300", or 
+\item{stock_pool}{Stock pool in which stocks are selected. "ZZALL", "HS300", or
 "ZZ500". Default to "ZZALL".}
 
 \item{n_layer}{Number of layers. Default 10.}
 
 \item{frequency}{An integer. Adjust position in every how many days?}
 
-\item{start_point}{An integer. Which day from the sample beginning to firstly 
+\item{start_point}{An integer. Which day from the sample beginning to firstly
 set up position. Usually from 1 to \code{frequency}. Default 1.}
 }
 \value{
