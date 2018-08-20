@@ -32,7 +32,7 @@ layer_return <- function(Test_Data, factor, neutrals = NULL, stock_pool = "ZZALL
       ungroup()
   }
   Test_Data <- Test_Data %>%
-    select(-LOG_S_DQ_MV, -LOG_B2M, -CITICS_IND_CODE)
+    select(-CITICS_IND_CODE)
 
   # filter stock_pool & update TRADABLE
   Test_Data <- Test_Data %>%
@@ -57,13 +57,13 @@ layer_return <- function(Test_Data, factor, neutrals = NULL, stock_pool = "ZZALL
     # 筛选换仓时间
     distinct(TRADE_DT) %>%
     slice(seq(start_point, nrow(.), by = frequency)) %>%
-    semi_join(Test_Data, .) %>%
+    semi_join(Test_Data, ., by = "TRADE_DT") %>%
 
     # generate layers and benchmark weights excluding UNTRADABLE stocks
     group_by(TRADE_DT) %>%
     mutate(LAYER = divide(!! factor, n_group = n_layer, valid = TRADABLE),   # 不可交易和因子值缺失的都为NA
            # Benchmark为所有TRADABLE股票的等权组合
-           W_Benchmark = if_else(TRADABLE, 1 / sum(TRADABLE), 0)) %>%
+           W_Benchmark = if_else(TRADABLE & !is.na(factor), 1 / sum(TRADABLE & !is.na(factor)), 0)) %>%
 
     # W is equal weights in each layer
     group_by(TRADE_DT, LAYER) %>%

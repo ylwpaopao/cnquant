@@ -4,19 +4,11 @@
 \alias{summ_stats}
 \title{Calculate summary statistics}
 \usage{
-summ_stats(x, na.rm = TRUE)
+summ_stats(.data, round = NULL, lang = "ENG", ...)
 }
 \arguments{
-\item{x}{A numeric vector.}
-
-\item{na.rm}{Logical. Should missing values (including \code{NaN}) be removed?}
-}
-\value{
-A numeric vector.
+\item{...}{}
 }
 \description{
 \code{summ_stats()} calculates frequently used summary statistics for academic paper.
-}
-\examples{
-summary_stats(rnorm(100))
 }

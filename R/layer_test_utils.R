@@ -1,5 +1,13 @@
 # snippet function
 # regular cleaning mission
+#' Title
+#'
+#' @param Stock_Daily_Data
+#'
+#' @return
+#' @export
+#'
+#' @examples
 clean_stock_daily_data <- function(Stock_Daily_Data) {
   Stock_Daily_Data %>%
 
@@ -31,6 +39,16 @@ clean_stock_daily_data <- function(Stock_Daily_Data) {
 
 # snippet function
 # spread var along stock code
+#' Title
+#'
+#' @param Test_Data
+#' @param var
+#' @param fill
+#'
+#' @return
+#' @export
+#'
+#' @examples
 spread_single_var <- function(Test_Data, var, fill = NA) {
   var <- enquo(var)
   Test_Data %>%
