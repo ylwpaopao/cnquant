@@ -4,8 +4,8 @@
 \alias{layer_return}
 \title{Calculate layer returns from raw stock daily data data frame}
 \usage{
-layer_return(Test_Data, factor, neutrals = NULL, stock_pool = "ZZALL",
-  n_layer = 10L, frequency = 20L, start_point = 1L)
+layer_return(Test_Data, factor, neutrals = NULL, stock_pool = "NONEST",
+  n_layer = 10L, frequency = 20L, start_point = 1L, lang = "CHN")
 }
 \arguments{
 \item{Test_Data}{Stock daily data data frame of certain form.}
@@ -16,8 +16,8 @@ layer_return(Test_Data, factor, neutrals = NULL, stock_pool = "ZZALL",
 to neutralize upon. Possible components are "CITICS_IND_CODE", "LOG_S_DQ_MV",
 and "LOG_B2M". For example, \code{neutrals = c("CITICS_IND_CODE", "LOG_S_DQ_MV")}.}
 
-\item{stock_pool}{Stock pool in which stocks are selected. "ZZALL", "HS300", or
-"ZZ500". Default to "ZZALL".}
+\item{stock_pool}{Stock pool in which stocks are selected. "NONEST", "ZZALL", "HS300", or
+"ZZ500". Default to "NONEST".}
 
 \item{n_layer}{Number of layers. Default 10.}
 
@@ -25,6 +25,8 @@ and "LOG_B2M". For example, \code{neutrals = c("CITICS_IND_CODE", "LOG_S_DQ_MV")
 
 \item{start_point}{An integer. Which day from the sample beginning to firstly
 set up position. Usually from 1 to \code{frequency}. Default 1.}
+
+\item{lang}{}
 }
 \value{
 An xts object of returns of each layer.

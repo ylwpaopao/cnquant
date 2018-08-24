@@ -5,7 +5,7 @@
 \title{Title}
 \usage{
 calc_IC(Test_Data, factor, return_window = NULL, standarize = FALSE,
-  neutrals = NULL, stock_pool = "ZZALL")
+  neutrals = NULL, stock_pool = "NONEST")
 }
 \arguments{
 \item{return_window}{A list. Refer to width in rollapply.}

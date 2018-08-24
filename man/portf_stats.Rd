@@ -4,7 +4,7 @@
 \alias{portf_stats}
 \title{Summary statistics for portfolio(s)}
 \usage{
-portf_stats(Ra, Rb = NULL, scale = NA)
+portf_stats(Ra, Rb = Ra[, ncol(Ra)], scale = NA, lang = "CHN")
 }
 \arguments{
 \item{Ra}{An xts object of portfolio return.}
@@ -12,6 +12,8 @@ portf_stats(Ra, Rb = NULL, scale = NA)
 \item{Rb}{An xts object of benchmark return.}
 
 \item{scale}{Number of period per year.}
+
+\item{lang}{}
 }
 \value{
 A statistic matrix.

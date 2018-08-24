@@ -3,7 +3,7 @@
 monthly_winning_rate <- function(Ra, Rb) {
   merge(Ra, Rb) %>%
     as_tibble() %>%
-    rownames_to_column("TRADE_DT") %>%
+    tibble::rownames_to_column("TRADE_DT") %>%
     mutate(TRADE_DT = substr(TRADE_DT, 1, 7)) %>%
     group_by(TRADE_DT) %>%
     summarise_if(is.numeric, Return.cumulative) %>%
@@ -21,35 +21,41 @@ monthly_winning_rate <- function(Ra, Rb) {
 #' @param Ra An xts object of portfolio return.
 #' @param Rb An xts object of benchmark return.
 #' @param scale Number of period per year.
+#' @param lang
 #'
 #' @return A statistic matrix.
 #' @export
 #'
 #' @examples
-portf_stats <- function(Ra, Rb = NULL, scale = NA) {
-  stats <- rbind(
-    Return.annualized(Ra, scale = scale),
-    StdDev.annualized(Ra, scale = scale),
-    SharpeRatio.annualized(Ra, scale = scale),
-    maxDrawdown(Ra)
-  ) %>%
-    `rownames<-`(c("年化收益率", "年化波动率", "年化夏普比", "最大回撤"))
+portf_stats <- function(Ra, Rb = Ra[, ncol(Ra)], scale = NA, lang = "CHN") {
+  # functions in PerformanceAnalytics return a 1-row matrix
+  # basic stats
+  stats1 <- rbind(
+    PerformanceAnalytics::Return.annualized(Ra, scale = scale),
+    PerformanceAnalytics::StdDev.annualized(Ra, scale = scale),
+    PerformanceAnalytics::SharpeRatio.annualized(Ra, scale = scale),
+    PerformanceAnalytics::maxDrawdown(Ra)
+  )
+  if (lang == "CHN")
+    rownames(stats1) <- c("年化收益率", "年化波动率", "年化夏普比", "最大回撤")
 
+  # additional stats requiring benchmark returns
   if (!is.null(Rb)) {
-    stats <- rbind(
-      stats,
-      rbind(
-        "超额年化收益率" = ActiveReturn(Ra, Rb, scale = scale),
-        "年化跟踪误差" = TrackingError(Ra, Rb, scale = scale),
-        "信息比" = InformationRatio(Ra, Rb, scale = scale),
-        "相对基准月胜率" = monthly_winning_rate(Ra, Rb),
-        "超额收益最大回撤" = maxDrawdown(Return.excess(Ra, Rb)) %>% `rownames<-`("Excess Return Worst Drawdown") %>% `colnames<-`(colnames(Ra))
-      ) %>%
-        `rownames<-`(c("超额年化收益率", "年化跟踪误差", "信息比", "相对基准月胜率", "超额收益最大回撤"))
+    stats2 <- rbind(
+      PerformanceAnalytics::ActiveReturn(Ra, Rb, scale = scale),
+      PerformanceAnalytics::TrackingError(Ra, Rb, scale = scale),
+      PerformanceAnalytics::InformationRatio(Ra, Rb, scale = scale),
+      monthly_winning_rate(Ra, Rb),
+      PerformanceAnalytics::maxDrawdown(Return.excess(Ra, Rb)) %>% `rownames<-`("Excess Return Worst Drawdown") %>% `colnames<-`(colnames(Ra))
     )
+    if (lang == "CHN")
+      rownames(stats2) <- c("超额年化收益率", "年化跟踪误差", "信息比", "相对基准月胜率", "超额收益最大回撤")
+    stats <- rbind(stats1, stats2)
   }
+
+  # adjust and return
   stats %>%
     t() %>%
-    round(4L) %>%
+    as_tibble(rownames = if_else(lang == "CHN", "投资组合", "Portfolio")) %>%
     return()
 }

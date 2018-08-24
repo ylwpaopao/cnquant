@@ -12,18 +12,17 @@
 #'
 #' @examples
 calc_IC <- function(Test_Data, factor, return_window = NULL, standarize = FALSE,
-                    neutrals = NULL, stock_pool = "ZZALL") {
+                    neutrals = NULL, stock_pool = "NONEST") {
 
   # quote
   factor <- enquo(factor)
-  neutrals <- syms(neutrals)
-  stock_pool <- sym(stock_pool)
 
   # generate expected return if necessary
+  # if is.null(return_window), EXPECTED_RETURN must exist before, it's usually for testing
   if (!is.null(return_window)) {
     Test_Data <- Test_Data %>%
       group_by(S_INFO_WINDCODE) %>%
-      mutate(EXPECTED_RETURN = rollapply(S_DQ_PCTCHANGE, return_window, Return.cumulative, fill = NA)) %>%
+      mutate(EXPECTED_RETURN = zoo::rollapply(S_DQ_PCTCHANGE, return_window, PerformanceAnalytics::Return.cumulative, fill = NA)) %>%
       ungroup()
   }
 
@@ -36,7 +35,9 @@ calc_IC <- function(Test_Data, factor, return_window = NULL, standarize = FALSE,
   }
 
   # neutralize
-  if (length(neutrals) > 0) {
+  if (!is.null(neutrals)) {
+    neutrals <- syms(neutrals)
+
     Test_Data <- Test_Data %>%
       group_by(TRADE_DT) %>%
       mutate(!! quo_name(factor) := neutralize(!! factor, !!! neutrals)) %>%
@@ -44,8 +45,11 @@ calc_IC <- function(Test_Data, factor, return_window = NULL, standarize = FALSE,
   }
 
   # stock_pool
-  Test_Data <- Test_Data %>%
-    filter(!! stock_pool)
+  if (stock_pool != "NONEST") {
+    stock_pool <- sym(stock_pool)
+    Test_Data <- Test_Data %>%
+      filter(!! stock_pool)
+  }
 
   # calculate IC
   Test_Data %>%
