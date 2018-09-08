@@ -18,11 +18,11 @@ calc_IC <- function(Test_Data, factor, return_window = NULL, standarize = FALSE,
   factor <- enquo(factor)
 
   # generate expected return if necessary
-  # if is.null(return_window), EXPECTED_RETURN must exist before, it's usually for testing
+  # if is.null(return_window), Expected_Return must exist before, it's usually for testing
   if (!is.null(return_window)) {
     Test_Data <- Test_Data %>%
       group_by(S_INFO_WINDCODE) %>%
-      mutate(EXPECTED_RETURN = zoo::rollapply(S_DQ_PCTCHANGE, return_window, PerformanceAnalytics::Return.cumulative, fill = NA)) %>%
+      mutate(Expected_Return = zoo::rollapply(S_DQ_PCTCHANGE, return_window, PerformanceAnalytics::Return.cumulative, fill = NA)) %>%
       ungroup()
   }
 
@@ -54,8 +54,8 @@ calc_IC <- function(Test_Data, factor, return_window = NULL, standarize = FALSE,
   # calculate IC
   Test_Data %>%
     group_by(TRADE_DT) %>%
-    summarise(IC = cor(!! factor, EXPECTED_RETURN, use = "na.or.complete"),
-              Rank_IC = cor(!! factor, EXPECTED_RETURN, use = "na.or.complete", method = "spearman")) %>%
+    summarise(IC = cor(!! factor, Expected_Return, use = "na.or.complete"),
+              Rank_IC = cor(!! factor, Expected_Return, use = "na.or.complete", method = "spearman")) %>%
     na.omit() %>%
     return()
 }
