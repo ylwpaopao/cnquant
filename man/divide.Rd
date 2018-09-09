@@ -4,13 +4,15 @@
 \alias{divide}
 \title{Divide numeric into quantile groups}
 \usage{
-divide(x, n_group = 10)
+divide(x, n_group = 10, valid = NULL)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
 \item{n_group}{A positive integer (greater than or equal to 2) giving the
 number of quantiles into which x is to be divide.}
+
+\item{valid}{}
 }
 \value{
 An integer vector with the same length of x which takes value from 1:n_group.
@@ -24,5 +26,5 @@ divide(rnorm(100))
 divide(c(1, 2, 2, 3), n_group = 4)
 }
 \seealso{
-\code{\link[base]{cut}}.
+\code{\link[dplyr]{ntile}}.
 }
