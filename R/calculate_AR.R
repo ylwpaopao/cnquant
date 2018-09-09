@@ -5,7 +5,7 @@
 #' @param data A data frame.
 #'
 #' The first column is the trading date whose class is "Date".
-#' The second column is the raw return.
+#' The second column is the return.
 #' The others are factors.
 #' @param estimation_window_start
 #' A positive integer giving the start time point of beta estimation window.
@@ -28,7 +28,10 @@
 #' @param factor_number
 #' A positive integer.
 #'
-#' 3 means there are 3 factors. 4 means there are 4 factors. 5 means there are 5 factors.
+#' 1 means there is 1 factor.
+#' 3 means there are 3 factors.
+#' 4 means there are 4 factors.
+#' 5 means there are 5 factors.
 #'
 #'
 #' @return A double vector.
@@ -54,7 +57,8 @@ calculate_AR <- function(data,
   ## estimation_window_end_type:   == "day"表示时间窗口的终止点给的是多少天；
   ##                               == "month"表示时间窗口的终止点给的是多少月；
   ##                               == "year"表示时间窗口的终止点给的是多少年
-  ## factor_number: == 3L 表示用3因子模型
+  ## factor_number: == 1L 表示用1因子模型
+  ##                == 3L 表示用3因子模型
   ##                == 4L 表示用4因子模型
   ##                == 5L 表示用5因子模型
 
@@ -259,6 +263,68 @@ calculate_AR <- function(data,
                                 coef_factor3 * AR_data$factor3[i] +
                                 coef_factor4 * AR_data$factor4[i] +
                                 coef_factor5 * AR_data$factor5[i])
+
+        return(ar)
+      }else{
+        return(NA)
+      }
+    }
+
+    ## 生成超额收益率ar那一列
+    ar = sapply(1 : nrow(data), function(i){CalculateAR(data, i)})
+
+
+    return(ar)
+
+  }else if(factor_number == 1L){
+    ## 将data里面变量的名字改为trade_date, R, factor1
+    names(data) <- c("trade_date", "R", "factor1")
+
+    ## 根据estimation_window_start和estimation_window_end生成估计beta系数的估计窗口
+    ## 生成估计窗口的起始点
+    if(estimation_window_start_type == "day"){
+      data$estimation_start_date = data$trade_date - lubridate::days(estimation_window_start)
+    }else if(estimation_window_start_type == "month"){
+      data$estimation_start_date = lubridate::`%m-%`(data$trade_date,
+                                                     months(estimation_window_start))
+    }else if(estimation_window_start_type == "year"){
+      data$estimation_start_date = lubridate::`%m-%`(data$trade_date,
+                                                     lubridate::years(estimation_window_start))
+    }
+
+    ## 生成估计窗口的终止点
+    if(estimation_window_end_type == "day"){
+      data$estimation_end_date = data$trade_date - lubridate::days(estimation_window_end)
+    }else if(estimation_window_end_type == "month"){
+      data$estimation_end_date = lubridate::`%m-%`(data$trade_date,
+                                                   months(estimation_window_end))
+    }else if(estimation_window_end_type == "year"){
+      data$estimation_end_date = lubridate::`%m-%`(data$trade_date,
+                                                   lubridate::years(estimation_window_end))
+    }
+
+    ## 生成估计窗口中有效交易日的个数
+    data$available_trade_days_number =
+      sapply(1 : nrow(data), function(i){
+        sum((data$trade_date >= data$estimation_start_date[i]) &
+              (data$trade_date <= data$estimation_end_date[i]))})
+
+
+    ## 根据上面的data.frame结构计算超额收益率的函数
+    CalculateAR <- function(AR_data, i){
+
+      if(AR_data$available_trade_days_number[i] >= least_valid_days){
+
+        in_window <- (AR_data$trade_date >= AR_data$estimation_start_date[i]) &
+          (AR_data$trade_date <= AR_data$estimation_end_date[i])
+
+        R.sub <- AR_data$R[in_window]
+        factor1.sub <- data$factor1[in_window]
+
+        reg <- lm(R.sub ~ factor1.sub)
+        intercept <- coef(reg)[1]
+        coef_factor1 <- coef(reg)[2]
+        ar <- AR_data$R[i] - (intercept + coef_factor1 * AR_data$factor1[i])
 
         return(ar)
       }else{

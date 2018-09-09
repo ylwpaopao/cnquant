@@ -76,9 +76,9 @@ read_tick_data <- function(file,
   }else if(is.character(col_types)){
     data <- readr::read_csv(file)
 
-    data_variable_nemas <- names(data)
+    data_variable_names <- names(data)
 
-    if (all(col_types %in% data_variable_nemas)) {
+    if (all(col_types %in% data_variable_names)) {
       data <- data %>%
         dplyr::select(col_types)
 

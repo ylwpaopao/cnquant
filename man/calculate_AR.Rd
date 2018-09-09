@@ -12,7 +12,7 @@ calculate_AR(data, estimation_window_start, estimation_window_end,
 \item{data}{A data frame.
 
 The first column is the trading date whose class is "Date".
-The second column is the raw return.
+The second column is the return.
 The others are factors.}
 
 \item{estimation_window_start}{A positive integer giving the start time point of beta estimation window.}
@@ -35,7 +35,10 @@ The others are factors.}
 
 \item{factor_number}{A positive integer.
 
-3 means there are 3 factors. 4 means there are 4 factors. 5 means there are 5 factors.}
+1 means there is 1 factor.
+3 means there are 3 factors.
+4 means there are 4 factors.
+5 means there are 5 factors.}
 }
 \value{
 A double vector.
