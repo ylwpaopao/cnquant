@@ -23,6 +23,8 @@ read_csmar_data <- function(path, skip = 0, col_names = TRUE, col_types = NULL) 
   stopifnot(file.exists(path))
 
   if (col_names == "Chinese") {
+    skip <- dplyr::if_else(skip == 0, 1, skip)
+
     col_names <- path %>%
       dirname() %>%
       dir(pattern = "\\[DES\\]") %>%
@@ -30,16 +32,19 @@ read_csmar_data <- function(path, skip = 0, col_names = TRUE, col_types = NULL) 
       file.path(dirname(path), .) %>%
       readLines(encoding = "UTF-8") %>%
       sub("^.+\\[(.+)\\].+$", "\\1", .)
+
+    if (is.character(col_types))
+      col_names <- col_names[col_types != "skip"]
   }
 
   if (grepl(".xls$", path)) {
-    if (is.character(col_types) & col_names == "Chinese") col_names <- col_names[col_types != "skip"]
-    return(path %>%
-             dirname() %>%
-             dir(pattern = paste0("^", unlist(strsplit(basename(path), "\\."))[1], "-?", "[0-9]*\\.xls$")) %>%
-             file.path(dirname(path), .) %>%
-             lapply(readxl::read_excel, skip = skip, col_names = col_names, col_types = col_types) %>%
-             bind_rows())
+    path %>%
+      dirname() %>%
+      dir(pattern = paste0("^", unlist(strsplit(basename(path), "\\."))[1], "-?", "[0-9]*\\.xls$")) %>%
+      file.path(dirname(path), .) %>%
+      lapply(readxl::read_excel, skip = skip, col_names = col_names, col_types = col_types) %>%
+      bind_rows() %>%
+      return()
   } else if (grepl(".csv$", path)) {
     if (is.character(col_types)) col_names <- col_names[unlist(strsplit(col_types, "")) != "_"]
     return(readr::read_csv(path, skip = skip, col_names = col_names, col_types = col_types))
