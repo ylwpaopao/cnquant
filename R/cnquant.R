@@ -13,5 +13,4 @@
 #' @name cnquant
 #'
 #' @import dplyr
-#' @importFrom magrittr %>%
 NULL
