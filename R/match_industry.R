@@ -22,6 +22,7 @@ match_industry <- function(.data1, .data2, stock_code, trade_date, ENTRY_DT, REM
   .data1 %>%
     select(!! stock_code, !! trade_date) %>%
     left_join(.data2, by = quo_name(stock_code)) %>%
+    replace_na(list(ymd("99991231")) %>% `names<-`(quo_name(REMOVE_DT))) %>%
     mutate(FLAG = !! trade_date >= ENTRY_DT & !! trade_date <= REMOVE_DT) %>%
     filter(FLAG) %>%
     select(!! stock_code, !! trade_date, !! industry) %>%
