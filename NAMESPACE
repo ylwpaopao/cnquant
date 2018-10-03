@@ -3,6 +3,7 @@
 S3method(summ_stats,data.frame)
 S3method(summ_stats,default)
 export(calc_IC)
+export(calc_PIC)
 export(calculate_AR)
 export(calculate_price_impact_cost)
 export(clean_stock_daily_data)
