@@ -2,6 +2,8 @@
 
 S3method(summ_stats,data.frame)
 S3method(summ_stats,default)
+export(MAE)
+export(RMSE)
 export(calc_IC)
 export(calc_PIC)
 export(calculate_AR)
